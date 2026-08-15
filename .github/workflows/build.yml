@@ -1,0 +1,22 @@
+name: Build Trend Center Jordan POS V91
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: |
+        pip install pyinstaller customtkinter fpdf2 pillow pandas arabic-reshaper python-bidi openpyxl pywin32
+    - name: Build EXE
+      run: |
+        pyinstaller --noconsole --onefile --icon=icon.ico --add-data "icon.ico;." --name "Trend_Center_Jordan_Pro" main.py
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Trend_Center_Jordan_Pro_EXE
+        path: dist/Trend_Center_Jordan_Pro.exe
